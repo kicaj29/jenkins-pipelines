@@ -1,5 +1,5 @@
 - [install jenkins using docker](#install-jenkins-using-docker)
-- [review demo application](#review-demo-application)
+- [review amd use demo application](#review-amd-use-demo-application)
   - [install nodejs plugin in Jenkins](#install-nodejs-plugin-in-jenkins)
   - [create first jenkins job and configure it manually](#create-first-jenkins-job-and-configure-it-manually)
   - [Run the job](#run-the-job)
@@ -17,7 +17,7 @@ docker run --name myjenkins -p 8777:8080 -p 50000:50000 -v D:\dockershare\jenkin
 
 At this point in time the lts image contained **Jenkins 2.249.1**.
 
-# review demo application
+# review amd use demo application
 
 It is simple nodejs application.
 
