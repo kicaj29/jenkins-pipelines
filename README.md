@@ -10,7 +10,7 @@ docker run --name myjenkins -p 8777:8080 -p 50000:50000 -v D:\dockershare\jenkin
 
 At this point in time the lts image contained **Jenkins 2.249.1**.
 
-# use demo application
+# review demo application
 
 It is simple nodejs application.
 
@@ -45,7 +45,19 @@ Create `nodejs example app` as `freestyle project`.
 5. Go back to the job configuration to point installed nodejs
 ![jenkins-job-manual-config-step5-set-path-to-nodejs.png](./images/jenkins-job-manual-config-step5-set-path-to-nodejs.png)
 
-## run the job
+## Run the job
+The job now can successfully download all needed npm packages.
+![jenkins-job-manual-config-step6-run-the-job.png](./images/jenkins-job-manual-config-step6-run-the-job.png)
+All job output is available in mounted folder: `D:\dockershare\jenkins_home\workspace\nodejs example app`.
+
+```ps
+PS D:\dockershare\jenkins_home\workspace\nodejs example app\app-sources> npm start
+
+> myapp@0.0.1 start D:\dockershare\jenkins_home\workspace\nodejs example app\app-sources
+> node index.js
+
+Example app listening at http://:::3000
+```
 
 # resources
 https://github.com/wardviaene/jenkins-course
