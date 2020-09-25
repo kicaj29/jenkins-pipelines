@@ -1,3 +1,10 @@
+- [install jenkins using docker](#install-jenkins-using-docker)
+- [review demo application](#review-demo-application)
+  - [install nodejs plugin in Jenkins](#install-nodejs-plugin-in-jenkins)
+  - [create first jenkins job and configure it manually](#create-first-jenkins-job-and-configure-it-manually)
+  - [Run the job](#run-the-job)
+- [resources](#resources)
+
 # install jenkins using docker
 
 It looks that now this is official image for Jenkins: https://www.jenkins.io/blog/2018/12/10/the-official-Docker-image/
