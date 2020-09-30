@@ -5,10 +5,11 @@
   - [Run the job](#run-the-job)
 - [Use docker to build nodejs app](#use-docker-to-build-nodejs-app)
   - [Install docker plugin on jenkins](#install-docker-plugin-on-jenkins)
-  - [Add docker to the jenkins image](#add-docker-to-the-jenkins-image)
+  - [Add docker client to the jenkins image](#add-docker-client-to-the-jenkins-image)
     - [Create new image that contains also docker client](#create-new-image-that-contains-also-docker-client)
     - [Run container from the new image](#run-container-from-the-new-image)
-    - [Connect to thew new container and check if docker client is connected to the docker engine.](#connect-to-thew-new-container-and-check-if-docker-client-is-connected-to-the-docker-engine)
+    - [Connect to the new container as root and check if docker client is connected to the docker engine.](#connect-to-the-new-container-as-root-and-check-if-docker-client-is-connected-to-the-docker-engine)
+    - [Connect to the new container as jenkins user and check of docker client is connected to the docker engine.](#connect-to-the-new-container-as-jenkins-user-and-check-of-docker-client-is-connected-to-the-docker-engine)
 - [resources](#resources)
 
 # install jenkins using docker
@@ -79,7 +80,7 @@ Manage Jenkins -> Manage Plugins -> Available -> type docker in search input. Cl
 
 ![jenkins-docker-plugin](./images/jenkins-docker-plugin.png)
 
-## Add docker to the jenkins image
+## Add docker client to the jenkins image
 
 Because jenkins is already running in docker container we need to make sure that this jenkins container can access docker socket which is in linux system a file that can be used to communicate with docker api. Basically we need to make sure that docker client works correctly in the in the jenkins container - it means it can connect with docker engine. More [here](https://stackoverflow.com/questions/35110146/can-anyone-explain-docker-sock/35110344#:~:text=130-,docker.,defaults%20to%20use%20UNIX%20socket.&text=There%20might%20be%20different%20reasons,Docker%20socket%20inside%20a%20container.).
 
@@ -117,17 +118,31 @@ Next we can stop and remove previous container with jenkins and run new containe
 ### Run container from the new image
 
 ```
-PS D:\GitHub\kicaj29\jenkins-pipelines\jenkins-docker> docker run -p 8777:8080 -p 50000:50000 -v D:\dockershare\jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock --name jenkins-docker jenkins-docker:ver1
+PS D:\GitHub\kicaj29\jenkins-pipelines\jenkins-docker> docker run -p 8777:8080 -p 50000:50000 -v D:\dockershare\jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock --name jenkins-docker -u jenkins jenkins-docker:ver1
 ```
 >NOTE: [here](https://nagachiang.github.io/docker-bind-to-docker-socket-on-windows-host-from-linux-containers/#) is information to map socket in this way ```docker run -v //var/run/docker.sock:/var/run/docker.sock ...``` (double slash at the beginning and this version also works fine).
 
-### Connect to thew new container and check if docker client is connected to the docker engine.
+>NOTE1: it is important to run ```docker run``` as jenkins user (```-u jenkins```). Without this jenkins user will not have permission to ```docker.sock``` socket. This was the case in scenario Win10 host and DockerDesktopVM.
+
+### Connect to the new container as root and check if docker client is connected to the docker engine.
 ```
-PS C:\Users\jkowalski> docker exec -it -u root jenkins-docker bash
+PS D:\> docker exec -it -u root jenkins-docker bash
 root@6df5f0604e38:/# docker ps
 ```
 You can run also ```docker version``` in Windows 10 and in the container to see if information about docker engine is exactly the same.
 
+We can also check permissions:
+```
+root@17907514d865:/# ls -ahl /var/run/docker.sock
+srw-rw---- 1 root docker 0 Sep 28 04:59 /var/run/docker.sock
+```
+
+### Connect to the new container as jenkins user and check of docker client is connected to the docker engine.
+
+```
+PS D:\> docker exec -it jenkins-docker bash
+jenkins@17907514d865:/$ docker ps
+```
 
 # resources
 https://github.com/wardviaene/jenkins-course
