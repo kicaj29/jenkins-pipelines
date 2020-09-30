@@ -249,11 +249,23 @@ Run the job again, now it will be successful:
 ![jenkins-job-manual-config-step19-run-job-success.png](images/jenkins-job-manual-config-step19-run-job-success.png)
 
 It will create new job called **NodeJS example**:
-![jenkins-job-manual-config-step20-create-job-from-dsl.png](images/jenkins-job-manual-config-step20-create-job-from-dsl.png).
+![jenkins-job-manual-config-step20-create-job-from-dsl.png](images/jenkins-job-manual-config-step20-create-job-from-dsl.png)
 
 Job **NodeJS example** is ready to use.
 
 ## DSL job that builds and publishes docker image
+
+1. In existing **seed project** add path to the new groovy file:
+
+    ![jenkins-job-manual-config-step21-second-groovy-file.png](images/jenkins-job-manual-config-step21-second-groovy-file.png)
+
+2. Define credentials for ID **dockerhub**:
+
+    Manage Jenkins -> Manage Credentials:
+
+    ![jenkins-job-manual-config-step22-credentials-add.png](images/jenkins-job-manual-config-step22-credentials-add.png)
+
+    ![jenkins-job-manual-config-step23-set-credentials.png](images/jenkins-job-manual-config-step23-set-credentials.png)
 
 
 # resources
@@ -261,3 +273,4 @@ https://github.com/wardviaene/jenkins-course
 https://github.com/wardviaene/docker-demo   
 https://www.udemy.com/course/learn-devops-ci-cd-with-jenkins-using-pipelines-and-docker/   
 https://github.com/wardviaene/jenkins-docker   
+http://jenkinsci.github.io/job-dsl-plugin/
