@@ -10,6 +10,13 @@
     - [Run container from the new image](#run-container-from-the-new-image)
     - [Connect to the new container as root and check if docker client is connected to the docker engine.](#connect-to-the-new-container-as-root-and-check-if-docker-client-is-connected-to-the-docker-engine)
     - [Connect to the new container as jenkins user and check of docker client is connected to the docker engine.](#connect-to-the-new-container-as-jenkins-user-and-check-of-docker-client-is-connected-to-the-docker-engine)
+  - [Create docker image as build output](#create-docker-image-as-build-output)
+    - [Add new build step: docker build and publish](#add-new-build-step-docker-build-and-publish)
+    - [Create new repo in docker hub](#create-new-repo-in-docker-hub)
+    - [Configure the new step](#configure-the-new-step)
+    - [Remove not needed step](#remove-not-needed-step)
+    - [Run the job to build and publish the image](#run-the-job-to-build-and-publish-the-image)
+    - [Pull and run created image](#pull-and-run-created-image)
 - [resources](#resources)
 
 # install jenkins using docker
@@ -143,6 +150,48 @@ srw-rw---- 1 root docker 0 Sep 28 04:59 /var/run/docker.sock
 PS D:\> docker exec -it jenkins-docker bash
 jenkins@17907514d865:/$ docker ps
 ```
+
+## Create docker image as build output
+
+### Add new build step: docker build and publish
+
+![jenkins-job-manual-config-step7-step-docker-build-publish.png](images/jenkins-job-manual-config-step7-step-docker-build-publish.png)
+
+### Create new repo in docker hub
+
+![jenkins-job-manual-config-step7-new-repo.png](images/jenkins-job-manual-config-step7-new-repo.png)
+
+### Configure the new step
+
+![jenkins-job-manual-config-step8-docker-step-config.png](images/jenkins-job-manual-config-step8-docker-step-config.png)
+
+In advanced settings set project root folder:
+![jenkins-job-manual-config-step9-folder-root.png](images/jenkins-job-manual-config-step9-folder-root.png)
+
+### Remove not needed step
+
+Because now npm install is executed in [dockerfile](./app-sources/Dockerfile) we can delete step create [earlier](#create-first-jenkins-job-and-configure-it-manually) (step that was doing also ```npm install```).
+
+### Run the job to build and publish the image
+
+After run the image should be available in docker hub.
+![new image](./images/jenkins-job-manual-config-step10-new-image.png)
+
+
+### Pull and run created image
+
+```ps
+PS D:\> docker run -p 3001:3000 -d --name my-nodejs-app kicaj29/hello-world-image:latest
+b2de148fdea652c4c1f02763896c470ba7e9f0f54d75481fdf628ef49deca801
+PS D:\> docker ps | sls hello-world-image
+
+b2de148fdea6        kicaj29/hello-world-image:latest   "docker-entrypoint.sΓÇª"   36 seconds ago      Up 35 seconds
+      0.0.0.0:3001->3000/tcp                             my-nodejs-app
+```
+
+Next we can open the app in web browser:
+![jenkins-job-manual-config-step11-run-app.png](images/jenkins-job-manual-config-step11-run-app.png)
+
 
 # resources
 https://github.com/wardviaene/jenkins-course
