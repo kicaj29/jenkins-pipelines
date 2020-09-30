@@ -17,6 +17,11 @@
     - [Remove not needed step](#remove-not-needed-step)
     - [Run the job to build and publish the image](#run-the-job-to-build-and-publish-the-image)
     - [Pull and run created image](#pull-and-run-created-image)
+- [Infrastructure as a code](#infrastructure-as-a-code)
+  - [Jenkins Job DSL (Domain Specific Language)](#jenkins-job-dsl-domain-specific-language)
+    - [Install DSL plugin](#install-dsl-plugin)
+    - [Create new DSL job](#create-new-dsl-job)
+    - [Configure DSL job](#configure-dsl-job)
 - [resources](#resources)
 
 # install jenkins using docker
@@ -192,9 +197,46 @@ b2de148fdea6        kicaj29/hello-world-image:latest   "docker-entrypoint.sΓÇ�
 Next we can open the app in web browser:
 ![jenkins-job-manual-config-step11-run-app.png](images/jenkins-job-manual-config-step11-run-app.png)
 
+# Infrastructure as a code
+
+Issues when not using IaC:
+* no proper audit trail
+* no easy history of changes
+* segregation between Jenkins admins and developers
+  * users (often developers) will have to contact a Jenkins administrator to make a changes
+  * Long lead times for changes
+* Difficult to backup and restore (e.g. how to restore just one setting to how it was the day before)
+
+All the above problems do not appear when using IaC.
+
+## Jenkins Job DSL (Domain Specific Language)
+
+DSL is a jenkins plugin that allows you to defined jobs in a programmatic form. You can describe jobs using **Groovy** based language.
+
+### Install DSL plugin
+
+Manage Jenkins -> Manage Plugins
+![jenkins-job-manual-config-step12-dsl-plugin-install.png](images/jenkins-job-manual-config-step12-dsl-plugin-install.png)
+
+### Create new DSL job
+
+Select freestyle project job type.
+![jenkins-job-manual-config-step13-new-dsl-job.png](images/jenkins-job-manual-config-step13-new-dsl-job.png)
+
+
+### Configure DSL job
+
+Define repo:
+![jenkins-job-manual-config-step14-dsl-config-source-code.png](images/jenkins-job-manual-config-step14-dsl-config-source-code.png)
+
+Create new build step:   
+![jenkins-job-manual-config-step15-dsl-new-build-step.png](images/jenkins-job-manual-config-step15-dsl-new-build-step.png)
+
+Configure the step:
+![jenkins-job-manual-config-step16-dsl-configure-step.png](images/jenkins-job-manual-config-step16-dsl-configure-step.png)
 
 # resources
-https://github.com/wardviaene/jenkins-course
-https://github.com/wardviaene/docker-demo
+https://github.com/wardviaene/jenkins-course   
+https://github.com/wardviaene/docker-demo   
 https://www.udemy.com/course/learn-devops-ci-cd-with-jenkins-using-pipelines-and-docker/   
-https://github.com/wardviaene/jenkins-docker
+https://github.com/wardviaene/jenkins-docker   
