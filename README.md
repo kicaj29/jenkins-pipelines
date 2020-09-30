@@ -267,6 +267,9 @@ Job **NodeJS example** is ready to use.
 
     ![jenkins-job-manual-config-step23-set-credentials.png](images/jenkins-job-manual-config-step23-set-credentials.png)
 
+3. Approve the new groovy script (Manage Jenkins -> In-process Script Approval -> click Approve)
+
+4. Run the **seed project** - it will create new jenkins job **NodeJS Docker example**.
 
 # resources
 https://github.com/wardviaene/jenkins-course   
