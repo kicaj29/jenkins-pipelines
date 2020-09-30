@@ -22,6 +22,8 @@
     - [Install DSL plugin](#install-dsl-plugin)
     - [Create new DSL job](#create-new-dsl-job)
     - [Configure DSL job](#configure-dsl-job)
+    - [Run the job](#run-the-job-1)
+  - [DSL job that builds and publishes docker image](#dsl-job-that-builds-and-publishes-docker-image)
 - [resources](#resources)
 
 # install jenkins using docker
@@ -234,6 +236,25 @@ Create new build step:
 
 Configure the step:
 ![jenkins-job-manual-config-step16-dsl-configure-step.png](images/jenkins-job-manual-config-step16-dsl-configure-step.png)
+
+### Run the job
+
+For the first run it will fail:   
+![jenkins-job-manual-config-step17-dsl-first-run.png](images/jenkins-job-manual-config-step17-dsl-first-run.png)
+
+We have to approve the script: Manage Jenkins -> In-process Script Approval -> click Approve   
+![jenkins-job-manual-config-step18-approve-script.png](images/jenkins-job-manual-config-step18-approve-script.png)
+
+Run the job again, now it will be successful:   
+![jenkins-job-manual-config-step19-run-job-success.png](images/jenkins-job-manual-config-step19-run-job-success.png)
+
+It will create new job called **NodeJS example**:
+![jenkins-job-manual-config-step20-create-job-from-dsl.png](images/jenkins-job-manual-config-step20-create-job-from-dsl.png).
+
+Job **NodeJS example** is ready to use.
+
+## DSL job that builds and publishes docker image
+
 
 # resources
 https://github.com/wardviaene/jenkins-course   
