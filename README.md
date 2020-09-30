@@ -24,6 +24,11 @@
     - [Configure DSL job](#configure-dsl-job)
     - [Run the job](#run-the-job-1)
   - [DSL job that builds and publishes docker image](#dsl-job-that-builds-and-publishes-docker-image)
+  - [Jenkins Pipelines](#jenkins-pipelines)
+    - [Jenkins pipelines vs DSL jobs](#jenkins-pipelines-vs-dsl-jobs)
+    - [Jenkins pipeline with NodeJs and Docker](#jenkins-pipeline-with-nodejs-and-docker)
+      - [Create new pipeline job](#create-new-pipeline-job)
+      - [Configure pipeline job](#configure-pipeline-job)
 - [resources](#resources)
 
 # install jenkins using docker
@@ -279,6 +284,27 @@ Job **NodeJS example** is ready to use.
     PS D:\> docker run -p 3001:3000 -d --name my-nodejs-app kicaj29/hello-world-image:9dedd7b65
     2ec7eac034007d52c20372e921c5b1e0dab0d11a0b0c9539561e50fbff2ea9b5
     ```
+
+## Jenkins Pipelines
+
+### Jenkins pipelines vs DSL jobs
+
+* The both have the capability to write all you CI/CD in code
+* The difference is in implementation in Jenkins
+* DSL job creates a new jobs based on the code you write
+* The Jenkins Pipelines is a job type, you can create a Jenkins pipeline job that will handle the build/test/deployment of one project
+* **It is possible to create DSL jobs to create new pipeline jobs**. Another possibility would be to use an **Organization folder**, which is a feature of Jenkins Pipelines to detect the project repositories, removing the need to add new jobs.
+
+### Jenkins pipeline with NodeJs and Docker
+
+#### Create new pipeline job
+
+![jenkins-job-manual-config-step25-new-pipeline-job.png](/images/jenkins-job-manual-config-step25-new-pipeline-job.png)
+
+#### Configure pipeline job
+
+![jenkins-job-manual-config-step26-configure-pipeline.png](images/jenkins-job-manual-config-step26-configure-pipeline.png)
+
 # resources
 https://github.com/wardviaene/jenkins-course   
 https://github.com/wardviaene/docker-demo   
