@@ -1,7 +1,8 @@
+// def: allows you to declare variables
+def commit_id
+
 pipeline { 
 	agent any
-	// def: allows you to declare variables
-	def commit_id
 	stages {
 		stage('Preparation') {
 			// checkout scm: will do git clone
