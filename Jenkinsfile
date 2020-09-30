@@ -12,6 +12,7 @@ node {
 	}
 	stage('test') {
 		nodejs(nodeJSInstallationName: 'nodejs') {
+		sh 'cd app-sources'
 		sh 'npm install --only=dev'
 		sh 'npm test'
 		}
