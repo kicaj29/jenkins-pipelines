@@ -14,15 +14,15 @@ pipeline {
 		stage('test') {
 			// nodejs: https://www.jenkins.io/doc/pipeline/steps/nodejs/
 			nodejs(nodeJSInstallationName: 'nodejs') {
-			sh 'npm install --only=dev'
-			sh 'npm test'
+				sh 'npm install --only=dev'
+				sh 'npm test'
 			}
 		}
 		stage('docker build/push') {
 			// 'dockerhub': is ID of credentials defined in Jenkins
 			docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
-			def app = docker.build("kicaj29/hello-world-image:${commit_id}", '.').push()
+				def app = docker.build("kicaj29/hello-world-image:${commit_id}", '.').push()
+			}
 		}
-	}
 	}
 }
