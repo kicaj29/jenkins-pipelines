@@ -75,6 +75,7 @@ Create `nodejs example app` as `freestyle project`.
 4. Install nodejs   
    Manage Jenkins -> Global Tool Configuration
 ![jenkins-job-manual-config-step4-install-nodejs.png](./images/jenkins-job-manual-config-step4-install-nodejs.png)
+   >NOTE: it will be installed in folder ```jenkins_home\tools\jenkins.plugins.nodejs.tools.NodeJSInstallation\nodejs```.
 5. Go back to the job configuration to point installed nodejs
 ![jenkins-job-manual-config-step5-set-path-to-nodejs.png](./images/jenkins-job-manual-config-step5-set-path-to-nodejs.png)
 

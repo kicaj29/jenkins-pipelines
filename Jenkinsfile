@@ -11,6 +11,7 @@ node {
 		commit_id = readFile('.git/commit-id').trim()	 
 	}
 	stage('test') {
+		// nodejs: https://www.jenkins.io/doc/pipeline/steps/nodejs/
 		nodejs(nodeJSInstallationName: 'nodejs') {
 		sh 'cd app-sources'
 		sh 'npm install --only=dev'
