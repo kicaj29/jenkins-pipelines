@@ -27,6 +27,7 @@
   - [Jenkins Pipelines](#jenkins-pipelines)
     - [Jenkins pipelines vs DSL jobs](#jenkins-pipelines-vs-dsl-jobs)
     - [Jenkins pipeline with NodeJs and Docker](#jenkins-pipeline-with-nodejs-and-docker)
+      - [Install docker pipeline plugin](#install-docker-pipeline-plugin)
       - [Create new pipeline job](#create-new-pipeline-job)
       - [Configure pipeline job](#configure-pipeline-job)
 - [resources](#resources)
@@ -297,6 +298,10 @@ Job **NodeJS example** is ready to use.
 * **It is possible to create DSL jobs to create new pipeline jobs**. Another possibility would be to use an **Organization folder**, which is a feature of Jenkins Pipelines to detect the project repositories, removing the need to add new jobs.
 
 ### Jenkins pipeline with NodeJs and Docker
+
+#### Install docker pipeline plugin
+
+![jenkins-job-manual-config-step27-docker-pipeline-install.png](/images/jenkins-job-manual-config-step27-docker-pipeline-install.png)
 
 #### Create new pipeline job
 
