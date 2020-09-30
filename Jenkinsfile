@@ -22,11 +22,9 @@ pipeline {
 			}
 		}
 		stage('docker build/push') {
-			steps {
-				// 'dockerhub': is ID of credentials defined in Jenkins
-				docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
-					def app = docker.build("kicaj29/hello-world-image:${commit_id}", '.').push()
-				}
+			// 'dockerhub': is ID of credentials defined in Jenkins
+			docker.withRegistry('https://index.docker.io/v1/', 'dockerhub') {
+				def app = docker.build("kicaj29/hello-world-image:${commit_id}", '.').push()
 			}
 		}
 	}
