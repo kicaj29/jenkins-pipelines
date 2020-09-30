@@ -4,9 +4,7 @@ def commit_id
 pipeline { 
 	agent any
 	stages {
-		stage('Preparation') {
-			// checkout scm: will do git clone
-			checkout scm	 		
+		stage('Preparation') {	
 			// read commit ID (sha) from the HEAD and store its value in a file .git/commit-id
 			sh 'git rev-parse --short HEAD > .git/commit-id'
 			// save this commit ID in variable commit_id
