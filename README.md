@@ -306,9 +306,15 @@ Job **NodeJS example** is ready to use.
 
 ![jenkins-job-manual-config-step26-configure-pipeline.png](images/jenkins-job-manual-config-step26-configure-pipeline.png)
 
+>NOTE: click label **Pipeline Syntax** (on the bottom of the screen )to navigate to view where many jenkinsfile snippets can be found.
+
 # resources
 https://github.com/wardviaene/jenkins-course   
 https://github.com/wardviaene/docker-demo   
 https://www.udemy.com/course/learn-devops-ci-cd-with-jenkins-using-pipelines-and-docker/   
 https://github.com/wardviaene/jenkins-docker   
-http://jenkinsci.github.io/job-dsl-plugin/
+http://jenkinsci.github.io/job-dsl-plugin/   
+https://www.jenkins.io/doc/book/pipeline/   
+[node(scripted) vs pipeline(declarative)1](https://www.blazemeter.com/blog/how-to-use-the-jenkins-scripted-pipeline)   
+[node(scripted) vs pipeline(declarative)2](https://www.blazemeter.com/blog/how-to-use-the-jenkins-declarative-pipeline?utm_source=blog&utm_medium=BM_blog&utm_campaign=how-to-use-the-jenkins-scripted-pipeline)   
+https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline   
