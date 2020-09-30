@@ -270,7 +270,15 @@ Job **NodeJS example** is ready to use.
 3. Approve the new groovy script (Manage Jenkins -> In-process Script Approval -> click Approve)
 
 4. Run the **seed project** - it will create new jenkins job **NodeJS Docker example**.
+   
+5. Run created job **NodeJS Docker example**. It should build and publish new image to the configured repository in docker hub.   
+   ![jenkins-job-manual-config-step24-new-image.png](images/jenkins-job-manual-config-step24-new-image.png)
 
+6. Next you can run it using the following command:
+    ```
+    PS D:\> docker run -p 3001:3000 -d --name my-nodejs-app kicaj29/hello-world-image:9dedd7b65
+    2ec7eac034007d52c20372e921c5b1e0dab0d11a0b0c9539561e50fbff2ea9b5
+    ```
 # resources
 https://github.com/wardviaene/jenkins-course   
 https://github.com/wardviaene/docker-demo   
