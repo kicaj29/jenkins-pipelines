@@ -48,8 +48,6 @@ At this point in time the lts image contained **Jenkins 2.249.1**.
 
 It is simple nodejs application.
 
-[app-sources](./app-sources)
-
 ## install nodejs plugin in Jenkins
 
 Manage Jenkins -> Manage Plugins -> Available -> type in search ```nodejs``` -> select from the list NodeJs plugin -> click 'Download now and install after restart'.
@@ -86,9 +84,9 @@ The job now can successfully download all needed npm packages.
 All job output is available in mounted folder: `D:\dockershare\jenkins_home\workspace\nodejs example app`.
 
 ```ps
-PS D:\dockershare\jenkins_home\workspace\nodejs example app\app-sources> npm start
+PS D:\dockershare\jenkins_home\workspace\nodejs example app\> npm start
 
-> myapp@0.0.1 start D:\dockershare\jenkins_home\workspace\nodejs example app\app-sources
+> myapp@0.0.1 start D:\dockershare\jenkins_home\workspace\nodejs example app\
 > node index.js
 
 Example app listening at http://:::3000
@@ -179,12 +177,9 @@ jenkins@17907514d865:/$ docker ps
 
 ![jenkins-job-manual-config-step8-docker-step-config.png](images/jenkins-job-manual-config-step8-docker-step-config.png)
 
-In advanced settings set project root folder:
-![jenkins-job-manual-config-step9-folder-root.png](images/jenkins-job-manual-config-step9-folder-root.png)
-
 ### Remove not needed step
 
-Because now npm install is executed in [dockerfile](./app-sources/Dockerfile) we can delete step create [earlier](#create-first-jenkins-job-and-configure-it-manually) (step that was doing also ```npm install```).
+Because now npm install is executed in [dockerfile](./Dockerfile) we can delete step create [earlier](#create-first-jenkins-job-and-configure-it-manually) (step that was doing also ```npm install```).
 
 ### Run the job to build and publish the image
 

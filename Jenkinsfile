@@ -1,3 +1,5 @@
+// this scripted pipeline, there is also possibility to create declarative pipeline which is more commonly used
+// https://www.blazemeter.com/blog/how-to-use-the-jenkins-declarative-pipeline?utm_source=blog&utm_medium=BM_blog&utm_campaign=how-to-use-the-jenkins-scripted-pipeline
 // node: influence on what jenkins worker node the job will be ran (here: any node)
 node { 
 	// def: allows you to declare variables

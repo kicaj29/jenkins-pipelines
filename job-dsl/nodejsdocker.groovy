@@ -17,7 +17,6 @@ job('NodeJS Docker example') {
             repositoryName('kicaj29/hello-world-image')
             tag('${GIT_REVISION,length=9}')		//if it would be empty then latest tag would be used
             registryCredentials('dockerhub')	//create credentials with 'dockerhub' as ID
-			buildContext('app-sources')			//project root folder (here dockerfile should be placed)
             forcePull(false)
             forceTag(false)
             createFingerprints(false)
