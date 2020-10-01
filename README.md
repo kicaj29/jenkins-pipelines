@@ -331,6 +331,8 @@ The idea is:
 
 ![jenkins-job-manual-config-step29-configure.png](images/jenkins-job-manual-config-step29-configure.png)
 
+Next we can run the job to check if it works correctly.
+
 # resources
 https://github.com/wardviaene/jenkins-course   
 https://github.com/wardviaene/docker-demo   

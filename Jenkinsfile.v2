@@ -19,8 +19,7 @@ node {
         // after executing npms the container is deleted and next stage starts
    }
    stage('test with a DB') {
-        // use --rm to remove the container after using it
-        def mysql = docker.image('mysql').run("-e MYSQL_ALLOW_EMPTY_PASSWORD=yes --rm") 
+        def mysql = docker.image('mysql').run("-e MYSQL_ALLOW_EMPTY_PASSWORD=yes") 
         def myTestContainer = docker.image('node:4.6')
         myTestContainer.pull()
         // using linking, mysql will be available at host: mysql, port: 3306
@@ -28,7 +27,8 @@ node {
         myTestContainer.inside("--link ${mysql.id}:mysql") { 
             sh 'npm install --only=dev' 
             sh 'npm test'                     
-        }                                   
+        }
+        // Runs docker stop and docker rm to shut down a container and remove its storage.                       
         mysql.stop()
         // again after using myTestContainer the container is deleted and next stage starts
    }                                     
