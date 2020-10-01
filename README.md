@@ -33,6 +33,10 @@
     - [Build, test and run everything is docker containers](#build-test-and-run-everything-is-docker-containers)
       - [Create new job](#create-new-job)
       - [Configure the job](#configure-the-job)
+- [Jenkins slaves](#jenkins-slaves)
+  - [Static/manual scaling](#staticmanual-scaling)
+  - [Dynamic worker scaling](#dynamic-worker-scaling)
+  - [Slave and master integration](#slave-and-master-integration)
 - [resources](#resources)
 
 # install jenkins using docker
@@ -332,6 +336,32 @@ The idea is:
 ![jenkins-job-manual-config-step29-configure.png](images/jenkins-job-manual-config-step29-configure.png)
 
 Next we can run the job to check if it works correctly.
+
+# Jenkins slaves
+
+## Static/manual scaling
+
+* You can have more workers during working hours (or no workers outside working hours)
+* You can add more workers ad-hoc, when necessary
+  * During periods when a lot of code is created
+  * During periods when developers have to wait long for their builds to be finished
+    * i.e. jobs stay a long time in the queue
+
+## Dynamic worker scaling
+
+* Dynamic worker scaling
+  * You have plugins that can scale Jenkins slaves for you
+    * **Amazon EC2 Plugin**: if your jenkins build cluster gets overloaded, the plugin will start new slave nodes automatically using the AWS EC2 API. If after some time the nodes are idle, they will automatically get killed.
+    * **Docker plugin**: this plugin uses a docker host to spin up a slave container, run a jenkins build in it, and tear it down.
+    * **Amazon ECS Plugin**: same as docker plugin, but the host is now a docker orchestrator, the EC2 Container Engine, which can host the docker containers and scale out when necessary.
+    * **DigitalOcean Plugin**: dynamically provisions droplets to be used as jenkins slaves.
+
+## Slave and master integration
+
+* Master node connects to slave over SSH
+* Slave node connects to master over JNLP
+  * The slave will initiate the contact (useful if the slave is behind a firewall)
+  * Good solution for windows slaves
 
 # resources
 https://github.com/wardviaene/jenkins-course   
