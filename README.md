@@ -30,6 +30,9 @@
       - [Install docker pipeline plugin](#install-docker-pipeline-plugin)
       - [Create new pipeline job](#create-new-pipeline-job)
       - [Configure pipeline job](#configure-pipeline-job)
+    - [Build, test and run everything is docker containers](#build-test-and-run-everything-is-docker-containers)
+      - [Create new job](#create-new-job)
+      - [Configure the job](#configure-the-job)
 - [resources](#resources)
 
 # install jenkins using docker
@@ -307,6 +310,26 @@ Job **NodeJS example** is ready to use.
 ![jenkins-job-manual-config-step26-configure-pipeline.png](images/jenkins-job-manual-config-step26-configure-pipeline.png)
 
 >NOTE: click label **Pipeline Syntax** (on the bottom of the screen )to navigate to view where many jenkinsfile snippets can be found.
+
+### Build, test and run everything is docker containers
+
+The idea is:
+1. You can build/test your application first with and existing container with all the development tools.
+2. Next you can build a new container. much tinier, with only the runtime environment.
+3. Spinning up a new docker containers lets you bring in any new tool easily:
+    * You can specify exactly what dependencies you want, at any stage in the job
+    * You can start a database during the test stage to run tests on
+    * After the database tests have been concluded, the container can be removed, together with all the data
+
+[Jenkins.v2](./Jenkins.v2)
+
+#### Create new job
+
+![jenkins-job-manual-config-step28-tests-in-docker.png](images/jenkins-job-manual-config-step28-tests-in-docker.png)
+
+#### Configure the job
+
+![jenkins-job-manual-config-step29-configure.png](images/jenkins-job-manual-config-step29-configure.png)
 
 # resources
 https://github.com/wardviaene/jenkins-course   
