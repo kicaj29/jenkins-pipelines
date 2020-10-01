@@ -24,6 +24,7 @@ node {
         myTestContainer.pull()
         // using linking, mysql will be available at host: mysql, port: 3306
         // thx to this nodejs can connect to the mysql
+        // linking is legacy feature!!! https://docs.docker.com/network/links/ 
         myTestContainer.inside("--link ${mysql.id}:mysql") { 
             sh 'npm install --only=dev' 
             sh 'npm test'                     
