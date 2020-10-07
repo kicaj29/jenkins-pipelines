@@ -53,6 +53,7 @@
       - [Add new cloud - docker](#add-new-cloud---docker)
       - [Configure jenkins node cloud docker](#configure-jenkins-node-cloud-docker)
       - [Create and run job that will be executed by this jenkins node (slave)](#create-and-run-job-that-will-be-executed-by-this-jenkins-node-slave)
+- [Diagram](#diagram)
 - [resources](#resources)
 
 # install jenkins using docker
@@ -533,6 +534,10 @@ Docker Agent template configuration:
 For job execution the new container with agent will be created and after some time it will be disabled and removed (if no one uses this job).
 ![jenkins-job-manual-config-step37-list-with-all-agents.png](/images/jenkins-job-manual-config-step37-list-with-all-agents.png)
 
+# Diagram
+
+![docke-jenkings-diagram.png](./images/docke-jenkings-diagram.png)
+
 # resources
 https://github.com/wardviaene/jenkins-course   
 https://github.com/wardviaene/docker-demo   
@@ -544,4 +549,5 @@ https://www.jenkins.io/doc/book/pipeline/
 [node(scripted) vs pipeline(declarative)2](https://www.blazemeter.com/blog/how-to-use-the-jenkins-declarative-pipeline?utm_source=blog&utm_medium=BM_blog&utm_campaign=how-to-use-the-jenkins-scripted-pipeline)   
 https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline   
 https://devopscube.com/docker-containers-as-build-slaves-jenkins/   
-https://github.com/jenkinsci/docker-plugin/issues/599
+https://github.com/jenkinsci/docker-plugin/issues/599   
+https://docs.microsoft.com/en-us/virtualization/windowscontainers/deploy-containers/linux-containers
