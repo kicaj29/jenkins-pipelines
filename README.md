@@ -432,7 +432,7 @@ Thx to this correct IP address will be used in generated **agent.jar** used by s
 
 #### Download **agent.jar**
 
-Connect to jenkins slave and download **agent.jar**. Use IP address and port of the master jenkins container and not localhost!
+In jenkins slave download **agent.jar**. Use IP address and port of the master jenkins container and not localhost!
 
 ```
 root@25d02a9e409a:/# wget http://172.17.0.2:8080/jnlpJars/agent.jar
