@@ -8,7 +8,7 @@ pipeline{
 		stage("A"){
 			steps{
 				echo "Starting checkout..."
-				checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'http://git-server/user/repository.git']]])
+				checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'https://github.com/kicaj29/jenkins-pipelines']]])
 			}
 			post{
 				always{
