@@ -37,6 +37,22 @@
   - [Static/manual scaling](#staticmanual-scaling)
   - [Dynamic worker scaling](#dynamic-worker-scaling)
   - [Slave and master integration](#slave-and-master-integration)
+    - [Create Jenkins Slave using JNLP/docker](#create-jenkins-slave-using-jnlpdocker)
+      - [Create new node](#create-new-node)
+      - [Create image for the Jenkins Slave](#create-image-for-the-jenkins-slave)
+      - [Run container that will be used as Jenkins Slave](#run-container-that-will-be-used-as-jenkins-slave)
+      - [Check jenkins master container IP address](#check-jenkins-master-container-ip-address)
+      - [Set Jenkins URI in Jenkins configuration](#set-jenkins-uri-in-jenkins-configuration)
+      - [In the slave node view check how to download **agent.jar**.](#in-the-slave-node-view-check-how-to-download-agentjar)
+      - [Download **agent.jar**](#download-agentjar)
+      - [Run **agent.jar** to connect wit the master](#run-agentjar-to-connect-wit-the-master)
+      - [Check on the master if the salve is enabled](#check-on-the-master-if-the-salve-is-enabled)
+      - [Run a job on the slave](#run-a-job-on-the-slave)
+    - [Create Jenkins Slave using cloud/docker](#create-jenkins-slave-using-clouddocker)
+      - [Install docker plugin](#install-docker-plugin)
+      - [Add new cloud - docker](#add-new-cloud---docker)
+      - [Basic configuration](#basic-configuration)
+      - [Add docker agent template](#add-docker-agent-template)
 - [resources](#resources)
 
 # install jenkins using docker
@@ -44,10 +60,10 @@
 It looks that now this is official image for Jenkins: https://www.jenkins.io/blog/2018/12/10/the-official-Docker-image/
 
 ```
-docker run --name myjenkins -p 8777:8080 -p 50000:50000 -v D:\dockershare\jenkins_home:/var/jenkins_home jenkins/jenkins:lts
+docker run --name jenkins-docker -p 8777:8080 -p 50000:50000 -v D:\dockershare\jenkins_home:/var/jenkins_home jenkins/jenkins:lts
 ```
 * After installation add all default plugins.
-* Create admin user and click on the form **Save and Continue**.
+* Create admin user and click on the form **Save and Continue**. (admin/kicaj)
 
 At this point in time the lts image contained **Jenkins 2.249.1**.
 
@@ -363,6 +379,143 @@ Next we can run the job to check if it works correctly.
   * The slave will initiate the contact (useful if the slave is behind a firewall)
   * Good solution for windows slaves
 
+### Create Jenkins Slave using JNLP/docker
+
+#### Create new node
+
+Jenkins -> Manage Jenkins -> Manage Nodes and Clouds -> New Node
+
+![jenkins-job-manual-config-step30-create-new-node.png](./images/jenkins-job-manual-config-step30-create-new-node.png)
+
+![jenkins-job-manual-config-step30-new-node-config.png](./images/jenkins-job-manual-config-step30-new-node-config.png)
+
+#### Create image for the Jenkins Slave
+```PS
+D:\GitHub\kicaj29\jenkins-pipelines\jenkins-slave-docker> docker build -t jenkins-docker-slave:ver1 .
+```
+
+#### Run container that will be used as Jenkins Slave
+
+```PS
+docker run -it --name myjenkins-slave -v /var/run/docker.sock:/var/run/docker.sock jenkins-docker-slave:ver1
+```
+
+You can check java version using command
+```
+root@1722a983be11:/# java -version
+openjdk version "1.8.0_265"
+OpenJDK Runtime Environment (build 1.8.0_265-b01)
+OpenJDK 64-Bit Server VM (build 25.265-b01, mixed mode)
+root@1722a983be11:/#
+```
+
+#### Check jenkins master container IP address
+
+Because slave container will communicate with master container we have to know IP address of the master container.
+
+```
+PS D:\> docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' jenkins-docker
+172.17.0.2
+```
+
+#### Set Jenkins URI in Jenkins configuration
+
+Jenkins -> Manage Jenkins -> Configure System
+
+![jenkins-job-manual-config-step34-correct-jenkins-url.png](images/jenkins-job-manual-config-step34-correct-jenkins-url.png)
+
+Thx to this correct IP address will be used in generated **agent.jar** used by slave to communicate with the master.
+
+#### In the slave node view check how to download **agent.jar**.
+
+![jenkins-job-manual-config-step30-view-agend-possibilities.png](images/jenkins-job-manual-config-step30-view-agend-possibilities.png)
+
+#### Download **agent.jar**
+
+Connect to jenkins slave and download **agent.jar**. Use IP address and port of the master jenkins container and not localhost!
+
+```
+root@25d02a9e409a:/# wget http://172.17.0.2:8080/jnlpJars/agent.jar
+--2020-10-06 14:29:05--  http://172.17.0.2:8080/jnlpJars/agent.jar
+Connecting to 172.17.0.2:8080... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1521553 (1.5M) [application/java-archive]
+Saving to: ‘agent.jar’
+
+agent.jar                     100%[================================================>]   1.45M
+--.-KB/s    in 0.01s
+
+2020-10-06 14:29:05 (113 MB/s) - ‘agent.jar’ saved [1521553/1521553]
+```
+
+#### Run **agent.jar** to connect wit the master
+
+```
+root@25d02a9e409a:/# java -jar agent.jar -jnlpUrl http://172.17.0.2:8080/computer/builder-node/slave-agent.jnlp -secret 7dfa98ac38336c6a2f0e4d2ca8de5f2a29f65efecca0cca8cf4f807847baa677 -workDir "/var/jenkins"
+Oct 06, 2020 2:29:16 PM org.jenkinsci.remoting.engine.WorkDirManager initializeWorkDir
+INFO: Using /var/jenkins/remoting as a remoting work directory
+Oct 06, 2020 2:29:16 PM org.jenkinsci.remoting.engine.WorkDirManager setupLogging
+INFO: Both error and output logs will be printed to /var/jenkins/remoting
+Oct 06, 2020 2:29:16 PM hudson.remoting.jnlp.Main createEngine
+INFO: Setting up agent: builder-node
+Oct 06, 2020 2:29:16 PM hudson.remoting.jnlp.Main$CuiListener <init>
+INFO: Jenkins agent is running in headless mode.
+Oct 06, 2020 2:29:16 PM hudson.remoting.Engine startEngine
+INFO: Using Remoting version: 4.5
+Oct 06, 2020 2:29:16 PM org.jenkinsci.remoting.engine.WorkDirManager initializeWorkDir
+INFO: Using /var/jenkins/remoting as a remoting work directory
+Oct 06, 2020 2:29:16 PM hudson.remoting.jnlp.Main$CuiListener status
+INFO: Locating server among [http://172.17.0.2:8080/]
+Oct 06, 2020 2:29:17 PM org.jenkinsci.remoting.engine.JnlpAgentEndpointResolver resolve
+INFO: Remoting server accepts the following protocols: [JNLP4-connect, Ping]
+Oct 06, 2020 2:29:17 PM hudson.remoting.jnlp.Main$CuiListener status
+INFO: Agent discovery successful
+  Agent address: 172.17.0.2
+  Agent port:    50000
+  Identity:      6f:0e:3c:9c:20:3f:54:52:7d:d7:c3:3e:ea:1d:d1:fe
+Oct 06, 2020 2:29:17 PM hudson.remoting.jnlp.Main$CuiListener status
+INFO: Handshaking
+Oct 06, 2020 2:29:17 PM hudson.remoting.jnlp.Main$CuiListener status
+INFO: Connecting to 172.17.0.2:50000
+Oct 06, 2020 2:29:17 PM hudson.remoting.jnlp.Main$CuiListener status
+INFO: Trying protocol: JNLP4-connect
+Oct 06, 2020 2:29:17 PM hudson.remoting.jnlp.Main$CuiListener status
+INFO: Remote identity confirmed: 6f:0e:3c:9c:20:3f:54:52:7d:d7:c3:3e:ea:1d:d1:fe
+Oct 06, 2020 2:29:18 PM hudson.remoting.jnlp.Main$CuiListener status
+INFO: Connected
+```
+
+#### Check on the master if the salve is enabled
+
+![jenkins-job-manual-config-step30-jenkins-node-connected.png](./images/jenkins-job-manual-config-step30-jenkins-node-connected.png)
+
+#### Run a job on the slave
+
+![jenkins-job-manual-config-step30-run-job-on-slave.png](/images/jenkins-job-manual-config-step30-run-job-on-slave.png)
+
+
+### Create Jenkins Slave using cloud/docker
+
+#### Install docker plugin
+
+![jenkins-job-manual-config-step31-install-docker-plugin.png](/images/jenkins-job-manual-config-step31-install-docker-plugin.png)
+
+#### Add new cloud - docker
+
+Jenkins -> Manage Jenkins -> Manage Nodes and Clouds -> Configure Clouds
+
+![jenkins-job-manual-config-step32-docker-cloud-add.png](/images/jenkins-job-manual-config-step32-docker-cloud-add.png)
+
+
+#### Basic configuration
+
+![jenkins-job-manual-config-step33-docker-cloud-basic-config.png](/images/jenkins-job-manual-config-step33-docker-cloud-basic-config.png)
+
+>NOTE: use ```unix:///var/run/docker.sock``` in Docker Host URI because our jenkins master runs in container and docker engine is installed on Windows 10 so dedicated VM ```DockerDesktopVM``` is used to talk with docker engine.
+
+#### Add docker agent template
+
+
 # resources
 https://github.com/wardviaene/jenkins-course   
 https://github.com/wardviaene/docker-demo   
@@ -373,3 +526,4 @@ https://www.jenkins.io/doc/book/pipeline/
 [node(scripted) vs pipeline(declarative)1](https://www.blazemeter.com/blog/how-to-use-the-jenkins-scripted-pipeline)   
 [node(scripted) vs pipeline(declarative)2](https://www.blazemeter.com/blog/how-to-use-the-jenkins-declarative-pipeline?utm_source=blog&utm_medium=BM_blog&utm_campaign=how-to-use-the-jenkins-scripted-pipeline)   
 https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline   
+https://devopscube.com/docker-containers-as-build-slaves-jenkins/
