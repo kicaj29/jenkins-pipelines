@@ -409,6 +409,10 @@ OpenJDK 64-Bit Server VM (build 25.265-b01, mixed mode)
 root@1722a983be11:/#
 ```
 
+```PS
+docker run -it --name myjenkins-slave-mounted -v /var/run/docker.sock:/var/run/docker.sock -v D:\dockershare\jenkins_home_builder_node_mounted:/var/jenkins_home jenkins-docker-slave:ver1
+```
+
 #### Check jenkins master container IP address
 
 Because slave container will communicate with master container we have to know IP address of the master container.

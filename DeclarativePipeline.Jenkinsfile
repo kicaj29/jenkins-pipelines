@@ -1,13 +1,14 @@
 // Declarative Pipeline
 pipeline{
-	agent any
-	/*agent{
+	// agent any
+	agent{
 		label "node"
-	}*/
+	}
 	stages{
 		stage("A"){
 			steps{
-				echo "========executing A========"
+				echo "Starting checkout..."
+				checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'http://git-server/user/repository.git']]])
 			}
 			post{
 				always{
