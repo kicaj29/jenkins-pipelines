@@ -409,6 +409,7 @@ OpenJDK 64-Bit Server VM (build 25.265-b01, mixed mode)
 root@1722a983be11:/#
 ```
 
+>NOTE: to have easy access to all files created by this jenkins agent you can mount the jenkins folder in local file system:
 ```PS
 docker run -it --name myjenkins-slave-mounted -v /var/run/docker.sock:/var/run/docker.sock -v D:\dockershare\jenkins_home_builder_node_mounted:/var/jenkins_home jenkins-docker-slave:ver1
 ```
