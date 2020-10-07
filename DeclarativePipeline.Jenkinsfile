@@ -5,6 +5,7 @@ pipeline{
 	environment {
     	registry = "kicaj29/hello-world-image"
     	registryCredential = 'dockerhub'
+		dockerImage = ''
   	}
 	// agent any
 	agent{
@@ -43,10 +44,19 @@ pipeline{
         		// after executing npms the container is deleted and next stage starts
 			}
 		}
-		stage("build and publish docker image"){
+		stage("build docker image"){
 			steps{
 				script {
-          			docker.build registry + ":$GIT_COMMIT_HASH"
+          			dockerImage = docker.build registry + ":$GIT_COMMIT_HASH"
+        		}
+			}
+		}
+		stage("publish docker image"){
+			steps{
+				script {
+          			docker.withRegistry(registry, registryCredential) {
+            			dockerImage.push()
+          			}
         		}
 			}
 		}
