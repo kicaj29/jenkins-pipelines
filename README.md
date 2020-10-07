@@ -51,8 +51,8 @@
     - [Create Jenkins Slave using cloud/docker](#create-jenkins-slave-using-clouddocker)
       - [Install docker plugin](#install-docker-plugin)
       - [Add new cloud - docker](#add-new-cloud---docker)
-      - [Basic configuration](#basic-configuration)
-      - [Add docker agent template](#add-docker-agent-template)
+      - [Configure jenkins node cloud docker](#configure-jenkins-node-cloud-docker)
+      - [Create and run job that will be executed by this jenkins node (slave)](#create-and-run-job-that-will-be-executed-by-this-jenkins-node-slave)
 - [resources](#resources)
 
 # install jenkins using docker
@@ -496,6 +496,8 @@ INFO: Connected
 
 ### Create Jenkins Slave using cloud/docker
 
+Although it has in the name cloud this option also can be used to run everything locally.
+
 #### Install docker plugin
 
 ![jenkins-job-manual-config-step31-install-docker-plugin.png](/images/jenkins-job-manual-config-step31-install-docker-plugin.png)
@@ -507,14 +509,24 @@ Jenkins -> Manage Jenkins -> Manage Nodes and Clouds -> Configure Clouds
 ![jenkins-job-manual-config-step32-docker-cloud-add.png](/images/jenkins-job-manual-config-step32-docker-cloud-add.png)
 
 
-#### Basic configuration
+#### Configure jenkins node cloud docker
 
+Docker configuration:
 ![jenkins-job-manual-config-step33-docker-cloud-basic-config.png](/images/jenkins-job-manual-config-step33-docker-cloud-basic-config.png)
 
 >NOTE: use ```unix:///var/run/docker.sock``` in Docker Host URI because our jenkins master runs in container and docker engine is installed on Windows 10 so dedicated VM ```DockerDesktopVM``` is used to talk with docker engine.
 
-#### Add docker agent template
+Docker Agent template configuration:
+![jenkins-job-manual-config-step35-agent-template-config.png](/images/jenkins-job-manual-config-step35-agent-template-config.png)
 
+#### Create and run job that will be executed by this jenkins node (slave)
+
+![jenkins-job-manual-config-step36-job-for-cloud-docker.png](/images/jenkins-job-manual-config-step36-job-for-cloud-docker.png)
+
+![jenkins-job-manual-config-step38-job-execution.png](/images/jenkins-job-manual-config-step38-job-execution.png)
+
+For job execution the new container with agent will be created and after some time it will be disabled and removed (if no one uses this job).
+![jenkins-job-manual-config-step37-list-with-all-agents.png](/images/jenkins-job-manual-config-step37-list-with-all-agents.png)
 
 # resources
 https://github.com/wardviaene/jenkins-course   
@@ -526,4 +538,5 @@ https://www.jenkins.io/doc/book/pipeline/
 [node(scripted) vs pipeline(declarative)1](https://www.blazemeter.com/blog/how-to-use-the-jenkins-scripted-pipeline)   
 [node(scripted) vs pipeline(declarative)2](https://www.blazemeter.com/blog/how-to-use-the-jenkins-declarative-pipeline?utm_source=blog&utm_medium=BM_blog&utm_campaign=how-to-use-the-jenkins-scripted-pipeline)   
 https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-pipeline   
-https://devopscube.com/docker-containers-as-build-slaves-jenkins/
+https://devopscube.com/docker-containers-as-build-slaves-jenkins/   
+https://github.com/jenkinsci/docker-plugin/issues/599
