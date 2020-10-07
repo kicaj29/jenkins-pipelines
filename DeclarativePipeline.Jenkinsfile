@@ -33,15 +33,32 @@ pipeline{
 			}
 		}
 		stage("test") {
-			agent {
-				docker {image 'node:4.6'}
-			}
-			steps{
-				echo "starting tests..."
-				sh 'node --version'
-				sh 'npm install --only=dev'
-            	sh 'npm test'
-        		// after executing npms the container is deleted and next stage starts
+			failFast true
+			parallel {
+				stage("test on node:4.6") {
+					agent {
+						docker {image 'node:4.6'}
+					}
+					steps{
+						echo "starting tests on node 4.6 ..."
+						sh 'node --version'
+						sh 'npm install --only=dev'
+						sh 'npm test'
+						// after executing npms the container is deleted
+					}
+				}
+				stage("test on node:latest") {
+					agent {
+						docker {image 'node:latest'}
+					}
+					steps{
+						echo "starting tests on latest node ..."
+						sh 'node --version'
+						sh 'npm install --only=dev'
+						sh 'npm test'
+						// after executing npms the container is deleted
+					}
+				}
 			}
 		}
 		stage("build docker image"){
