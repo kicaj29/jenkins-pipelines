@@ -33,6 +33,7 @@ pipeline{
 			}
 			steps{
 				echo "starting tests..."
+				sh 'node --version'
 				sh 'npm install --only=dev'
             	sh 'npm test'
 				// it is possible also to install multiple nodejs version in jenkins but then we have to manage it
