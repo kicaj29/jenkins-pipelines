@@ -2,7 +2,7 @@
 pipeline{
 	// agent any
 	agent{
-		label "node"
+		label "builder-node-mounted"
 	}
 	stages{
 		stage("A"){
