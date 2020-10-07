@@ -28,8 +28,13 @@ pipeline{
 			}
 		}
 		stage("test") {
+			agent {
+				docker {image 'node:4.6'}
+			}
 			steps{
 				echo "starting tests..."
+				sh 'npm install --only=dev'
+            	sh 'npm test'
 				// it is possible also to install multiple nodejs version in jenkins but then we have to manage it
         		// so that`s why it is easier to run the test in dedicated container        
         		// def myTestContainer = docker.image('node:4.6')
