@@ -2,6 +2,10 @@
 def GIT_COMMIT_HASH
 
 pipeline{
+	environment {
+    	registry = "kicaj29/hello-world-image"
+    	registryCredential = 'dockerhub'
+  	}
 	// agent any
 	agent{
 		label "builder-node-mounted"
@@ -36,17 +40,14 @@ pipeline{
 				sh 'node --version'
 				sh 'npm install --only=dev'
             	sh 'npm test'
-				// it is possible also to install multiple nodejs version in jenkins but then we have to manage it
-        		// so that`s why it is easier to run the test in dedicated container        
-        		// def myTestContainer = docker.image('node:4.6')
-        		// call pull to make sure that the newest version is used (connect with docker hub) and do not use cached version
-        		//myTestContainer.pull()
-        		// now execute npm in this new container, thx to this I do not need nodejs in my jenkins container
-        		/*myTestContainer.inside {
-            		sh 'npm install --only=dev'
-            		sh 'npm test'
-        		}*/
         		// after executing npms the container is deleted and next stage starts
+			}
+		}
+		stage("build and publish docker image"){
+			steps{
+				script {
+          			docker.build registry + ":$GIT_COMMIT_HASH"
+        		}
 			}
 		}
 	}
