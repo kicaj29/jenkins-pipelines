@@ -11,10 +11,8 @@ pipeline{
 			steps{
 				echo "Starting checkout..."
 				checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'https://github.com/kicaj29/jenkins-pipelines']]])
-				script{
-					GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%h'", returnStdout: true)
-					echo "checkout from commit: ${GIT_COMMIT_HASH}"
-				}
+				GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%h'", returnStdout: true)
+				echo "checkout from commit: ${GIT_COMMIT_HASH}"
 			}
 			post{
 				/*always{
