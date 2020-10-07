@@ -1,31 +1,36 @@
 // Declarative Pipeline
+def GIT_COMMIT_HASH
+
 pipeline{
 	// agent any
 	agent{
 		label "builder-node-mounted"
 	}
 	stages{
-		stage("A"){
+		stage("Source code checkout"){
 			steps{
 				echo "Starting checkout..."
 				checkout([$class: 'GitSCM', branches: [[name: '*/master']], userRemoteConfigs: [[url: 'https://github.com/kicaj29/jenkins-pipelines']]])
+				script{
+					GIT_COMMIT_HASH = sh (script: "git log -n 1 --pretty=format:'%H'", returnStdout: true)
+					echo "checkout from commit: ${GIT_COMMIT_HASH}"
+				}
 			}
 			post{
 				always{
-					echo "========always========"
+					
 				}
 				success{
-					echo "========A executed successfully========"
+					echo "Source code checkout - success"
 				}
 				failure{
-					echo "========A execution failed========"
+					echo "Source code checkout - fail"
 				}
 			}
 		}
 	}
 	post{
-		always{
-			echo "========always========"
+		always{			
 		}
 		success{
 			echo "========pipeline executed successfully ========"
